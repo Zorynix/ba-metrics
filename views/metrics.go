@@ -1,6 +1,8 @@
 package views
 
 import (
+	"awesomeProject2/services"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
@@ -17,6 +19,8 @@ func (view *View) MetricsView() error {
 		log.Info().Err(err).Msg("")
 		return fiber.NewError(fiber.ErrBadRequest.Code)
 	}
+
+	log.Info().Interface("fingerprints", services.TakeFingerprints(view.Ctx)).Msg("")
 
 	return view.Ctx.Redirect(link.Url)
 }
