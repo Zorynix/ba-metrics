@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS ba_metrics.metrics
-(
+(   
     created_at DateTime,
+    link_id UUID,
     ip String,
     user_agent String,
     referer String,

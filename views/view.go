@@ -7,6 +7,7 @@ import (
 )
 
 type View struct {
-	Ctx *fiber.Ctx
-	Pg  *services.Postgres
+	Ctx        *fiber.Ctx
+	Pg         *services.Postgres
+	Clickhouse *services.Clickhouse
 }

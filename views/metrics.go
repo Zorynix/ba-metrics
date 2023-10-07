@@ -20,7 +20,12 @@ func (view *View) MetricsView() error {
 		return fiber.NewError(fiber.ErrBadRequest.Code)
 	}
 
-	log.Info().Interface("fingerprints", services.TakeFingerprints(view.Ctx)).Msg("")
+	fingerprints := services.TakeFingerprints(view.Ctx)
+	err = view.Clickhouse.RecordMetrics(id, fingerprints)
+	if err != nil {
+		log.Info().Err(err).Msg("")
+		return fiber.NewError(fiber.ErrBadGateway.Code)
+	}
 
 	return view.Ctx.Redirect(link.Url)
 }

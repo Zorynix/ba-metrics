@@ -32,3 +32,17 @@ func TakeFingerprints(c *fiber.Ctx) models.Fingerprints {
 
 	return models.Fingerprints{Ip: ip, UserAgent: userAgent, Referer: referer}
 }
+
+func (ch *Clickhouse) RecordMetrics(linkId uuid.UUID, fingerprints models.Fingerprints) error {
+	err := ch.db.Exec(context.Background(), `
+	INSERT INTO 
+		ba_metrics.metrics (created_at, link_id, ip, user_agent, referer)
+		VALUES
+			(now(), $1, $2, $3, $4)
+	`, linkId, fingerprints.Ip, fingerprints.UserAgent, fingerprints.Referer)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

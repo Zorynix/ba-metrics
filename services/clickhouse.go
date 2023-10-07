@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"crypto/tls"
 	"time"
 
 	"github.com/ClickHouse/clickhouse-go/v2"
@@ -16,30 +15,17 @@ type Clickhouse struct {
 
 func NewClickHouse(ctx context.Context) (*Clickhouse, error) {
 	conn, err := clickhouse.Open(&clickhouse.Options{
-		Addr: []string{"127.0.0.1:9009"},
+		Addr: []string{"127.0.0.1:19000"},
 		Auth: clickhouse.Auth{
-			Database: "default",
+			Database: "ba_metrics",
 			Username: "default",
-			Password: "",
+			Password: "qwerty123",
 		},
-		TLS: &tls.Config{
-			InsecureSkipVerify: true,
-		},
-		Settings: clickhouse.Settings{
-			"max_execution_time": 60,
-		},
-		DialTimeout:          time.Second * 30,
-		Debug:                true,
-		BlockBufferSize:      10,
-		MaxCompressionBuffer: 10240,
-		ClientInfo: clickhouse.ClientInfo{ // optional, please see Client info section in the README.md
-			Products: []struct {
-				Name    string
-				Version string
-			}{
-				{Name: "my-app", Version: "0.1"},
-			},
-		},
+		DialTimeout:     time.Second * 30,
+		Debug:           true,
+		MaxOpenConns:    10,
+		MaxIdleConns:    5,
+		ConnMaxLifetime: time.Hour,
 	})
 	if err != nil {
 		log.Fatal().Interface("unable to create clickhouse connection pool: %v", err).Msg("")
