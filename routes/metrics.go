@@ -6,9 +6,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (route *Route) HelloRoute() {
-	route.Group.Get("/hello/:name", func(c *fiber.Ctx) error {
+func (route *Router) MetricsRoutes() {
+	route.Router.Get("/to/:id", func(c *fiber.Ctx) error {
 		view := views.View{Ctx: c, Pg: route.Pg}
-		return view.HelloView()
+		return view.MetricsView()
 	})
 }

@@ -1,8 +1,8 @@
-DROP SCHEMA IF EXISTS service_template_schema CASCADE;
+DROP SCHEMA IF EXISTS ba_schema CASCADE;
 
-CREATE SCHEMA IF NOT EXISTS service_template_schema;
+CREATE SCHEMA IF NOT EXISTS ba_schema;
 
-CREATE TABLE IF NOT EXISTS service_template_schema.users (
-    name TEXT PRIMARY KEY,
-    count INTEGER DEFAULT(1)
+CREATE TABLE IF NOT EXISTS ba_schema.links (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    url text NOT NULL
 );

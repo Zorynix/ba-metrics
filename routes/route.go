@@ -3,6 +3,7 @@ package routes
 import (
 	"awesomeProject2/services"
 	"context"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
 )
@@ -33,6 +34,7 @@ func Routes(addr *string) {
 	route := Router{Router: router, Pg: db}
 
 	route.V1Routes()
+	route.MetricsRoutes()
 
 	if err := router.Listen(*addr); err != nil {
 		log.Fatal().Err(err).Msg("Can not start http server")
