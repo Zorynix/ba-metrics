@@ -22,9 +22,9 @@ func NewClickHouse(ctx context.Context) (*Clickhouse, error) {
 			Password: "qwerty123",
 		},
 		DialTimeout:     time.Second * 30,
-		Debug:           true,
-		MaxOpenConns:    10,
-		MaxIdleConns:    5,
+		Debug:           false,
+		MaxOpenConns:    100,
+		MaxIdleConns:    20,
 		ConnMaxLifetime: time.Hour,
 	})
 	if err != nil {

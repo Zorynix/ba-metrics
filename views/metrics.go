@@ -22,11 +22,13 @@ func (view *View) MetricsView() error {
 	}
 
 	fingerprints := services.TakeFingerprints(view.Ctx)
-	err = view.Clickhouse.RecordMetrics(id, fingerprints)
-	if err != nil {
-		log.Info().Err(err).Msg("")
+	errors := view.Clickhouse.RecordBuckets(id, fingerprints)
+	if len(errors) > 0 {
+		log.Info().Interface("errors", errors).Msg("")
 		return fiber.NewError(fiber.ErrBadGateway.Code)
 	}
+
+	//log.Info().Interface("info", services.TakeFingerprints(view.Ctx)).Msg("")
 
 	return view.Ctx.Redirect(link.Url)
 }

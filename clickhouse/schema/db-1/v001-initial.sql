@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS ba_metrics.metrics
     localization String,
     model String,
     platform String,
-    os String,
+    os String
 )
 ENGINE = MergeTree
 PRIMARY KEY (created_at)
