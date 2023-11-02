@@ -2,6 +2,7 @@ package services
 
 import (
 	"awesomeProject2/models"
+	"context"
 	"fmt"
 	"net"
 
@@ -65,19 +66,19 @@ func TakeFingerprints(c *fiber.Ctx) models.Fingerprints {
 		Model: model, Platform: platform, OS: os}
 }
 
-// func (ch *Clickhouse) RecordMetrics(linkId uuid.UUID, fingerprints models.Fingerprints) error {
-// 	err := ch.db.Exec(context.Background(), `
-// 	INSERT INTO
-// 		ba_metrics.metrics (created_at, link_id, ip, city, country, timezone, referer, browser, localization, model, platform, os)
-// 		VALUES
-// 			(now(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-// 	`, linkId, fingerprints.Ip, fingerprints.City, fingerprints.Country, fingerprints.Timezone, fingerprints.Referer, fingerprints.Browser,
-// 		fingerprints.Localization, fingerprints.Model, fingerprints.Platform, fingerprints.OS)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
+func (ch *Clickhouse) RecordMetrics(linkId uuid.UUID, fingerprints models.Fingerprints) error {
+	err := ch.db.Exec(context.Background(), `
+	INSERT INTO
+		ba_metrics.metrics (created_at, link_id, ip, city, country, timezone, referer, browser, localization, model, platform, os)
+		VALUES
+			(now(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+	`, linkId, fingerprints.Ip, fingerprints.City, fingerprints.Country, fingerprints.Timezone, fingerprints.Referer, fingerprints.Browser,
+		fingerprints.Localization, fingerprints.Model, fingerprints.Platform, fingerprints.OS)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 // func (ch *Clickhouse) TakeMetrics(models.Fingerprints) error {
 // 	provider, err := oidc.NewProvider(context.Background(), "http://localhost:8000")
