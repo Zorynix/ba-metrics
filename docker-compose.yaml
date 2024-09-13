@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  clickhouse-db:
+    volumes:
+      - "./.clickhouse-data:/var/lib/clickhouse"
+    image: clickhouse/clickhouse-server:latest
+    environment:
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: qwerty123
+    ports:
+      - "18123:8123"
+      - "19000:9000"
+  kittenhouse:
+    image: dolbonya/kittenhouse:latest
+    environment:
+      CLICKHOUSE_DATABASE: ba_metrics
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: qwerty123
+      SYSTEM_USER: root
+      SYSTEM_GROUP: root
+      CLICKHOUSE_HOSTS: "clickhouse-db:8123"
+      MAX_SEND_SIZE: 10000
+      KH_PORT: 13338
+    ports:
+      - "8124:8124"

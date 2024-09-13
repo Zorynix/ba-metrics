@@ -2,6 +2,7 @@ package routes
 
 import (
 	"awesomeProject2/views"
+
 	"github.com/gofiber/fiber/v2"
 )
 

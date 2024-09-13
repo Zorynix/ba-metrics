@@ -12,7 +12,7 @@ func (pg *Postgres) SayHello(name string) (models.User, error) {
 		INSERT INTO
 			service_template_schema.users (name, count)
 		VALUES
-			($1, 1)
+			($1,1)
 		ON CONFLICT (name)
 		DO UPDATE SET count = users.count + 1
 		RETURNING users.name, users.count`, name)
@@ -27,3 +27,6 @@ func (pg *Postgres) SayHello(name string) (models.User, error) {
 
 	return user, nil
 }
+
+//localhost:8000/to/uuid
+//
